@@ -1,5 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
+import lodash from 'lodash';
 
 class ConsoleApp extends React.Component {
   constructor(props) {
@@ -16,21 +17,23 @@ class ConsoleApp extends React.Component {
       const indexOfDuplication = prevState.duplicatedLoggedMessages.findIndex(
         element => element.message === duplicatedMessage
       );
-      console.log(indexOfDuplication);
+
+      var newState = lodash.cloneDeep(prevState);
+
       if (
         prevState.duplicatedLoggedMessages.length === 0 ||
         indexOfDuplication === -1
       ) {
-        prevState.duplicatedLoggedMessages.push({
+        newState.duplicatedLoggedMessages.push({
           message: duplicatedMessage,
           numberOfDuplication: 2
         });
       } else {
-        prevState.duplicatedLoggedMessages[
+        newState.duplicatedLoggedMessages[
           indexOfDuplication
         ].numberOfDuplication += 1;
       }
-      return prevState;
+      return newState;
     });
   }
 
